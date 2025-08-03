@@ -20,6 +20,25 @@
   </header>
 
   <main>
+    <!-- LOGIN SECTION -->
+    <section id="login-section" style="display: none;">
+      <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <p class="login-hint">Default: admin / admin</p>
+      </div>
+    </section>
+
     <section id="controls">
       <button id="add-subscription">Add Subscription</button>
       <button id="export-csv">Export CSV</button>

@@ -4,7 +4,7 @@ const SESSION_KEY = 'user_session';
 const DEFAULT_USER = { username: 'admin', password: 'admin' };
 const SESSION_DURATION = 30 * 60 * 1000; // 30 minutos
 
-export function checkLogin() {
+export function checkSession() {
   const session = JSON.parse(localStorage.getItem(SESSION_KEY));
   if (!session || Date.now() > session.expiresAt) {
     return false;
