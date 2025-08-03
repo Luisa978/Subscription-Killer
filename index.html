@@ -1,189 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription Killer - Gerenciador de Assinaturas</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
-    <meta name="theme-color" content="#2563eb">
-    <meta name="description" content="Gerencie suas assinaturas e economize dinheiro">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#121212" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192x192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Subscription Killer</title>
 </head>
 <body>
-    <!-- Tela de Login -->
-    <div id="loginScreen" class="screen active">
-        <div class="login-container">
-            <div class="logo">
-                <h1>💰 Subscription Killer</h1>
-                <p>Gerencie suas assinaturas e economize dinheiro</p>
-            </div>
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="username">Usuário</label>
-                    <input type="text" id="username" required placeholder="Digite seu usuário">
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" required placeholder="Digite sua senha">
-                </div>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <p class="demo-info">Demo: usuário: <strong>demo</strong> | senha: <strong>123</strong></p>
-            </form>
-        </div>
-    </div>
 
-    <!-- Tela Principal -->
-    <div id="mainScreen" class="screen">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1>💰 Subscription Killer</h1>
-                <div class="header-actions">
-                    <button id="themeToggle" class="btn btn-icon" title="Alternar tema">🌙</button>
-                    <button id="exportBtn" class="btn btn-secondary">📊 Exportar</button>
-                    <button id="backupBtn" class="btn btn-secondary">💾 Backup</button>
-                    <button id="logoutBtn" class="btn btn-outline">Sair</button>
-                </div>
-            </div>
-        </header>
+  <!-- AVISO OFFLINE -->
+  <div id="offline-warning" class="hidden">You are currently offline.</div>
 
-        <!-- Dashboard -->
-        <main class="main-content">
-            <!-- Resumo -->
-            <section class="summary-cards">
-                <div class="card">
-                    <h3>Total Mensal</h3>
-                    <p class="amount" id="totalMonthly">R$ 0,00</p>
-                </div>
-                <div class="card">
-                    <h3>Total Anual</h3>
-                    <p class="amount" id="totalYearly">R$ 0,00</p>
-                </div>
-                <div class="card">
-                    <h3>Assinaturas Ativas</h3>
-                    <p class="count" id="activeCount">0</p>
-                </div>
-                <div class="card">
-                    <h3>Economia Potencial</h3>
-                    <p class="savings" id="potentialSavings">R$ 0,00</p>
-                </div>
-            </section>
+  <header>
+    <h1>Subscription Killer</h1>
+    <button id="theme-toggle">Toggle Theme</button>
+  </header>
 
-            <!-- Gráficos -->
-            <section class="charts-section">
-                <div class="chart-container">
-                    <h3>Gastos por Mês</h3>
-                    <canvas id="monthlyChart" width="400" height="200"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Distribuição por Categoria</h3>
-                    <canvas id="categoryChart" width="400" height="200"></canvas>
-                </div>
-            </section>
+  <main>
+    <section id="controls">
+      <button id="add-subscription">Add Subscription</button>
+      <button id="export-csv">Export CSV</button>
+      <button id="backup-data">Backup</button>
+      <input type="file" id="restore-file" />
+    </section>
 
-            <!-- Controles -->
-            <section class="controls">
-                <div class="filters">
-                    <input type="text" id="searchFilter" placeholder="Pesquisar assinaturas...">
-                    <select id="categoryFilter">
-                        <option value="">Todas as categorias</option>
-                        <option value="streaming">Streaming</option>
-                        <option value="software">Software</option>
-                        <option value="games">Games</option>
-                        <option value="fitness">Fitness</option>
-                        <option value="outros">Outros</option>
-                    </select>
-                    <select id="statusFilter">
-                        <option value="">Todos os status</option>
-                        <option value="ativa">Ativas</option>
-                        <option value="cancelada">Canceladas</option>
-                    </select>
-                </div>
-                <button id="addSubscriptionBtn" class="btn btn-primary">+ Nova Assinatura</button>
-            </section>
+    <section id="filters">
+      <label>
+        Filter:
+        <input type="text" id="filter-input" placeholder="Filter by name..." />
+      </label>
+    </section>
 
-            <!-- Tabela de Assinaturas -->
-            <section class="table-section">
-                <div class="table-container">
-                    <table id="subscriptionsTable">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Categoria</th>
-                                <th>Valor Mensal</th>
-                                <th>Próximo Pagamento</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="subscriptionsTableBody">
-                            <!-- Dados serão inseridos via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
-    </div>
+    <section id="subscription-table-container">
+      <table id="subscription-table">
+        <thead>
+          <tr>
+            <th data-sort="name">Name</th>
+            <th data-sort="amount">Amount</th>
+            <th data-sort="frequency">Frequency</th>
+            <th data-sort="nextPayment">Next Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="subscription-table-body"></tbody>
+      </table>
+    </section>
 
-    <!-- Modal para Adicionar/Editar Assinatura -->
-    <div id="subscriptionModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Nova Assinatura</h2>
-                <button class="modal-close">&times;</button>
-            </div>
-            <form id="subscriptionForm">
-                <div class="form-group">
-                    <label for="subName">Nome da Assinatura</label>
-                    <input type="text" id="subName" required>
-                </div>
-                <div class="form-group">
-                    <label for="subCategory">Categoria</label>
-                    <select id="subCategory" required>
-                        <option value="">Selecione uma categoria</option>
-                        <option value="streaming">Streaming</option>
-                        <option value="software">Software</option>
-                        <option value="games">Games</option>
-                        <option value="fitness">Fitness</option>
-                        <option value="outros">Outros</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="subPrice">Valor Mensal (R$)</label>
-                    <input type="number" id="subPrice" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="subNextPayment">Próximo Pagamento</label>
-                    <input type="date" id="subNextPayment" required>
-                </div>
-                <div class="form-group">
-                    <label for="subStatus">Status</label>
-                    <select id="subStatus" required>
-                        <option value="ativa">Ativa</option>
-                        <option value="cancelada">Cancelada</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-outline" id="cancelModalBtn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <section id="charts">
+      <canvas id="subscription-chart"></canvas>
+    </section>
+  </main>
 
-    <!-- Scripts -->
-    <script src="app.js"></script>
-    <script>
-        // Registrar Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('SW registrado'))
-                    .catch(error => console.log('SW falhou'));
-            });
-        }
-    </script>
+  <footer>
+    <p>&copy; 2025 Subscription Killer</p>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('✅ Service Worker registered:', reg))
+        .catch(err => console.error('❌ Service Worker registration failed:', err));
+    }
+  </script>
 </body>
 </html>
-
