@@ -1,0 +1,190 @@
+/* Reset e base */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+:root {
+  --bg-color: #f0f0f0;
+  --text-color: #222;
+  --primary: #4e79a7;
+  --secondary: #f28e2c;
+  --danger: #d62828;
+  --table-bg: #fff;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --table-bg: #1e1e1e;
+}
+
+header, footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--primary);
+  color: white;
+}
+
+main {
+  padding: 1rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary);
+}
+
+input[type="text"],
+input[type="file"] {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: var(--table-bg);
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+th[data-sort] {
+  cursor: pointer;
+}
+
+#charts {
+  margin-top: 2rem;
+}
+
+/* Aviso de offline */
+#offline-warning {
+  background: #ff9800;
+  color: white;
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+
+#offline-warning.hidden {
+  display: none;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  th, td {
+    padding: 0.5rem;
+    text-align: right;
+    border: none;
+    position: relative;
+  }
+
+  th::before,
+  td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+}
+
+
+/* Login Section Styles */
+#login-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.login-container {
+  background-color: var(--table-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(78, 121, 167, 0.2);
+}
+
+.login-hint {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+body.dark .login-hint {
+  color: #aaa;
+}
+
+body.dark .form-group input {
+  border-color: #444;
+  background-color: #2a2a2a;
+}
+
+body.dark .form-group input:focus {
+  border-color: var(--primary);
+}
+
